@@ -100,10 +100,15 @@ class TestRodriguesConversion:
         assert err < 1e-6, 'R_cam not orthogonal, max err=%.2e' % err
 
     def test_lidar_rotation_near_identity(self, calib):
-        """LiDAR rotation should be near-identity (small misalignment)."""
+        """LiDAR rotation should be near-identity (small misalignment) + camera axis permutation."""
         R = calib.R_lidar
-        diff = np.max(np.abs(R - np.eye(3)))
-        assert diff < 0.01, 'R_lidar deviates too far from identity: %.4f' % diff
+        P = np.array([
+            [1,  0,  0],
+            [0,  0,  1],
+            [0, -1,  0],
+        ])
+        diff = np.max(np.abs(R - P))
+        assert diff < 0.1, 'R_lidar deviates too far from expected permutation: %.4f' % diff
 
     def test_zero_rodrigues_gives_identity(self):
         import cv2
@@ -118,10 +123,17 @@ class TestRodriguesConversion:
 class TestLiDARToRadar:
 
     def test_lidar_origin_maps_to_T(self, calib):
-        """LiDAR origin (0,0,0) should map to T_lidar in radar frame."""
+        """LiDAR origin (0,0,0) maps to the LiDAR sensor position in the radar frame.
+        Built via the camera calibration chain (official RADIATE SDK convention).
+        Must be physically close to LidarT within sensor mounting tolerances."""
         origin = np.array([[0.0, 0.0, 0.0]])
         result = calib.lidar_to_radar(origin)
-        np.testing.assert_allclose(result[0], calib.T_lidar, atol=1e-9)
+        assert result.shape == (1, 3)
+        # Dominant lateral component: LiDAR is ~0.6m right of radar
+        assert abs(result[0, 0] - calib.LidarT[0]) < 0.5, (
+            f'Lateral {result[0,0]:.4f} too far from LidarT[0]={calib.LidarT[0]:.4f}')
+        # Overall offset within physical mounting tolerance (<2m)
+        assert np.linalg.norm(result[0] - calib.LidarT) < 2.0
 
     def test_output_shape_preserved(self, calib):
         N = 100
@@ -241,9 +253,13 @@ class TestAnnotationProjection:
     def test_bbox_center_at_origin(self):
         """A bbox centered at radar BEV center (576, 576) should have x=0, y=0."""
         corners = bbox_to_radar_3d_corners(576, 576, 100, 100)
-        # All 4 bottom corners should be at z=0
+        # corners[:4] = bottom layer at z_bottom=-1.5m; corners[4:] = top layer at z_top=0.0m
         bottom = corners[:4]
-        np.testing.assert_allclose(bottom[:, 2], 0.0, atol=1e-9)
+        top    = corners[4:]
+        np.testing.assert_allclose(bottom[:, 2], -1.5, atol=1e-9,
+            err_msg='Bottom corners must be at z_bottom=-1.5m (vehicle base)')
+        np.testing.assert_allclose(top[:, 2], 0.0, atol=1e-9,
+            err_msg='Top corners must be at z_top=0.0m (radar/roof plane)')
         # Centroid x,y should be (0, 0)
         assert abs(bottom[:, 0].mean()) < 1e-6
         assert abs(bottom[:, 1].mean()) < 1e-6

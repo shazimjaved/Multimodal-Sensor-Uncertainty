@@ -1,4 +1,5 @@
 # Datasets
+city_3_0/
 fog_6_0/
 fog_8_0/
 tiny_foggy/
@@ -19,3 +20,7 @@ env/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Experiments and Outputs
+outputs/
+.pytest_cache/

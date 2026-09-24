@@ -1,0 +1,291 @@
+# ==============================================================================
+# RADIATE Multimodal Uncertainty Calibration Experimental Protocol
+# Configuration: configs/experiment_protocol.yaml
+# Phase 3A: Clean-to-Degraded Stress Testing Protocol (Methodology Patched)
+# ==============================================================================
+
+experiment:
+  title: "Calibration Stress Testing of Multimodal Sensor Fusion under Progressive Sensor Degradation"
+  version: "1.1"
+  date: "2026-09-24"
+  author: "Research Team"
+  objective: "Determine whether multimodal fusion confidence remains trustworthy or becomes overconfident under progressive sensor degradation."
+
+# ------------------------------------------------------------------------------
+# 1. Dataset Splits & Boundaries
+# ------------------------------------------------------------------------------
+datasets:
+  train_val_source:
+    name: "city_3_0"
+    path: "city_3_0"
+    official_set: "train_good_weather"
+    environment: "Urban Edinburgh (Clear Daylight)"
+    total_radar_frames: 713
+    usable_radar_frames: 709
+    excluded_frames: [1, 2, 3, 4] # Discarded due to ZED camera warmup offset (>50ms)
+    train_split:
+      start_frame: 5
+      end_frame: 536
+      total_frames: 532
+      percentage: 75.04
+      timestamp_range: [1563273881.815465, 1563274014.512915]
+    val_split:
+      start_frame: 537
+      end_frame: 713
+      total_frames: 177
+      percentage: 24.96
+      timestamp_range: [1563274014.762915, 1563274058.852597]
+    split_rationale: "Strict chronological partitioning prevents spatial/temporal data leakage between adjacent 4Hz frames."
+
+  held_out_test:
+    name: "fog_6_0"
+    path: "fog_6_0"
+    official_set: "test"
+    environment: "Suburban Severe Fog"
+    total_radar_frames: 714
+    usable_multimodal_frames: 657
+    rules:
+      - "STRICTLY HELD OUT: Zero training on fog_6_0."
+      - "Zero hyperparameter tuning or architecture selection on fog_6_0."
+      - "Zero threshold optimization on fog_6_0."
+      - "Used solely for external real-world domain generalization evaluation."
+
+# ------------------------------------------------------------------------------
+# 2. Target Classes & Ground Truth Mapping
+# ------------------------------------------------------------------------------
+classes:
+  target_classes:
+    - "car"
+    - "van"
+    - "bus"
+  ignored_classes:
+    - "pedestrian"
+    - "group_of_pedestrians"
+    - "truck"
+    - "motorbike"
+    - "bicycle"
+  mapping_rules:
+    car: 0
+    van: 1
+    bus: 2
+    pedestrian: "ignore"
+    group_of_pedestrians: "ignore"
+    truck: "ignore"
+    motorbike: "ignore"
+    bicycle: "ignore"
+  raw_labels_preserved: true # Original labels in raw dataset remain completely unmodified
+  coordinate_frame: "Radar BEV Cartesian"
+  bev_bounds:
+    x_min: -50.0 # meters (left)
+    x_max: 50.0  # meters (right)
+    y_min: 0.0   # meters (front bumper)
+    y_max: 100.0 # meters (forward range)
+    resolution_m: 0.17361 # 1 / 5.7597 px/m
+
+# ------------------------------------------------------------------------------
+# 3. Physically-Grounded Synthetic Degradation Models
+# ------------------------------------------------------------------------------
+degradation:
+  camera:
+    model: "Koschmieder Atmospheric Scattering with Depth-Dependent Attenuation"
+    formula: "I(x) = J(x) * exp(-beta * d(x)) + A * (1 - exp(-beta * d(x)))"
+    depth_source: "Projected LiDAR depth map with bilateral/morphological depth completion; ground-plane geometry for lower road and optical horizon/infinity fallback for sky"
+    uniform_fog_forbidden: true # Explicitly forbids uniform fog overlay as primary degradation
+    airlight_A: [0.82, 0.82, 0.84] # Grayish daylight fog luminance
+    levels:
+      level_0:
+        name: "Clean"
+        beta: 0.0 # m^-1 (optical extinction)
+        blur_sigma: 0.0 # Gaussian forward-scattering kernel
+        contrast_scale: 1.0
+        visibility_m: 300.0
+      level_1:
+        name: "Light Fog"
+        beta: 0.02
+        blur_sigma: 1.0
+        contrast_scale: 0.85
+        visibility_m: 150.0
+      level_2:
+        name: "Moderate Fog"
+        beta: 0.05
+        blur_sigma: 2.0
+        contrast_scale: 0.65
+        visibility_m: 60.0
+      level_3:
+        name: "Dense Fog"
+        beta: 0.10
+        blur_sigma: 3.5
+        contrast_scale: 0.45
+        visibility_m: 30.0
+
+  lidar:
+    model: "Beer-Lambert Atmospheric Laser Extinction & Point Dropout"
+    formula: "P_drop(r) = 1 - exp(-alpha_ext * r)"
+    levels:
+      level_0:
+        name: "Clean"
+        alpha_ext: 0.0 # m^-1
+        max_range_m: 85.0
+        range_jitter_std_m: 0.0
+        expected_points: 45000
+      level_1:
+        name: "Light Attenuation"
+        alpha_ext: 0.010
+        max_range_m: 65.0
+        range_jitter_std_m: 0.02
+        expected_points: 34000
+      level_2:
+        name: "Moderate Attenuation"
+        alpha_ext: 0.025
+        max_range_m: 45.0
+        range_jitter_std_m: 0.05
+        expected_points: 22000
+      level_3:
+        name: "Severe Fog Extinction" # Calibrated to match fog_6_0 empirical point density
+        alpha_ext: 0.050
+        max_range_m: 25.0
+        range_jitter_std_m: 0.08
+        expected_points: 12000
+
+  radar:
+    model: "Controlled Radar Corruption Model (Sensor Stress / Hardware Clutter)"
+    note: "This model represents controlled radar corruption (radome wetting, receiver noise, clutter) to stress-test fusion. It is NOT claimed as a physically validated model of atmospheric fog-induced radar attenuation, as 77GHz millimeter waves penetrate fog."
+    formula: "S_deg = S_clean * 10^(-loss_db/20) * Rayleigh(sigma_s) + clutter"
+    levels:
+      level_0:
+        name: "Clean"
+        power_loss_db: 0.0
+        speckle_sigma: 0.0
+        clutter_density: 0.0
+      level_1:
+        name: "Mild Clutter / Rain Spray"
+        power_loss_db: 1.5
+        speckle_sigma: 0.15
+        clutter_density: 0.001
+      level_2:
+        name: "Moderate Radome Attenuation"
+        power_loss_db: 3.5
+        speckle_sigma: 0.30
+        clutter_density: 0.005
+      level_3:
+        name: "Severe Hardware Degradation"
+        power_loss_db: 6.0
+        speckle_sigma: 0.50
+        clutter_density: 0.015
+
+# ------------------------------------------------------------------------------
+# 4. Multimodal Experimental Conditions
+# ------------------------------------------------------------------------------
+conditions:
+  - id: "C0_CLEAN_BASELINE"
+    camera_level: 0
+    lidar_level: 0
+    radar_level: 0
+    description: "Nominal pristine inputs. Establishes baseline mAP, ECE, Brier, and NLL against which all degraded conditions are compared."
+
+  - id: "C1_CAMERA_ONLY_DEGRADATION"
+    camera_levels: [1, 2, 3]
+    lidar_level: 0
+    radar_level: 0
+
+  - id: "C2_LIDAR_ONLY_DEGRADATION"
+    camera_level: 0
+    lidar_levels: [1, 2, 3]
+    radar_level: 0
+
+  - id: "C3_RADAR_ONLY_DEGRADATION"
+    camera_level: 0
+    lidar_level: 0
+    radar_levels: [1, 2, 3]
+
+  - id: "C4_FOG_MATCHED_SYNTHETIC_DEGRADATION"
+    description: "Simulates fog dynamics by degrading camera and LiDAR simultaneously while preserving clean radar (which penetrates fog). Distinct from the real fog_6_0 transfer test."
+    camera_levels: [1, 2, 3]
+    lidar_levels: [1, 2, 3]
+    radar_level: 0
+
+  - id: "C5_CATASTROPHIC_ALL"
+    camera_levels: [1, 2, 3]
+    lidar_levels: [1, 2, 3]
+    radar_levels: [1, 2, 3]
+
+# ------------------------------------------------------------------------------
+# 5. Evaluation Metrics
+# ------------------------------------------------------------------------------
+metrics:
+  performance:
+    - name: "mAP@0.5"
+      description: "Mean Average Precision at IoU 0.5 (primary detection benchmark)"
+    - name: "mAP@0.5:0.95"
+      description: "COCO-style averaged mAP across IoU thresholds [0.50:0.05:0.95]"
+    - name: "Precision"
+      description: "True Positives / Total Predicted Detections at conf >= 0.5"
+    - name: "Recall"
+      description: "True Positives / Total Ground Truth Objects at conf >= 0.5"
+    - name: "F1"
+      description: "Harmonic mean of precision and recall"
+
+  calibration:
+    scope: "Detection-event calibration over predicted bounding box proposals."
+    confidence_definition: "p_hat_i = max_c p(c | box_i) (maximum predicted class probability for detection event i)."
+    correctness_definition: "y_i = 1 if predicted box has IoU >= 0.5 with an unmatched ground-truth object of matching class; y_i = 0 otherwise (unmatched false positive or class mismatch)."
+    scope_limitation: "Calibrates detection-event confidence. Does not directly represent false-negative calibration (missed ground-truth objects). False negatives are captured by Recall and mAP as complementary performance metrics."
+    evaluation_protocol: "Comparative evaluation: C0 Clean Validation establishes baseline mAP, ECE, Brier, and NLL. All degraded conditions (C1-C5) and fog_6_0 transfer are evaluated relative to C0 to track delta_ECE, delta_Brier, and delta_NLL. No arbitrary fixed ECE thresholds are assumed."
+    metrics:
+      - name: "ECE"
+        bins: 15
+        description: "Expected Calibration Error across 15 equal confidence intervals [0, 1]."
+      - name: "NLL"
+        description: "Negative Log-Likelihood of binary detection correctness."
+      - name: "Brier_Score"
+        description: "Mean squared error between predicted confidence and true correctness label y."
+      - name: "MCE"
+        description: "Maximum Calibration Error across all bins."
+      - name: "OE"
+        description: "Overconfidence Error measuring severity where confidence exceeds accuracy."
+
+# ------------------------------------------------------------------------------
+# 6. Model Architectural Setup & Ablation Matrix
+# ------------------------------------------------------------------------------
+models:
+  baseline_architecture:
+    type: "BEV Feature Concatenation Detector"
+    design_philosophy: "Computationally manageable and experimentally transparent. The core research contribution is the degradation and calibration stress-testing methodology, not a large novel architecture."
+    backbones:
+      radar: "ResNet-18 (1-channel input)"
+      lidar: "ResNet-18 (2-channel BEV height/density grid)"
+      camera: "ResNet-18 (3-channel RGB front image with BEV frustum projection)"
+    fusion: "Channel-wise concatenation + 1x1 Conv fusion neck"
+    head: "Single-stage anchor-free BEV detection head (CenterNet / FCOS style)"
+    loss: "Focal classification loss + Smooth L1 bounding box regression"
+
+  ablations:
+    - id: "M_RADAR_ONLY"
+      active_modalities: ["radar"]
+    - id: "M_LIDAR_ONLY"
+      active_modalities: ["lidar"]
+    - id: "M_CAMERA_ONLY"
+      active_modalities: ["camera"]
+    - id: "M_FUSION_RADAR_LIDAR"
+      active_modalities: ["radar", "lidar"]
+    - id: "M_FUSION_RADAR_CAMERA"
+      active_modalities: ["radar", "camera"]
+    - id: "M_FUSION_LIDAR_CAMERA"
+      active_modalities: ["lidar", "camera"]
+    - id: "M_FULL_MULTIMODAL"
+      active_modalities: ["radar", "lidar", "camera"]
+
+# ------------------------------------------------------------------------------
+# 7. Paper Scope Separation (IEEE 4-Page vs Optional)
+# ------------------------------------------------------------------------------
+paper_scope:
+  essential_4_page:
+    table_1: "Performance (mAP@0.5) and Calibration (ECE, Brier, OE) across 4 core architectures (Radar-only, LiDAR-only, Camera-only, Full Multimodal) under C0 Clean vs C4 Fog-Matched (Level 3) vs Real Fog (fog_6_0)."
+    figure_1: "System architecture and physical sensor degradation pipeline diagram."
+    figure_2: "Calibration Error (ECE) and Detection Performance (mAP) vs Degradation Severity (Levels 0->3) under Fog-Matched Synthetic Degradation (C4)."
+    figure_3: "Reliability Diagrams comparing C0 Clean baseline vs C4 Synthetic Fog (Level 3) vs Real fog_6_0."
+  optional_extended:
+    - "Fine-grained 10-level continuous parameter sweeps."
+    - "Cross-camera stereo disparity ablations (left vs right camera)."
+    - "Post-hoc recalibration (Temperature Scaling, Platt Scaling) under domain shift."
+    - "Temporal tracking / Kalman filtering uncertainty propagation."
