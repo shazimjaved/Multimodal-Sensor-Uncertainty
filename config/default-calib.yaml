@@ -1,0 +1,67 @@
+# RADIATE Sensor Calibration Parameters
+# Source: https://pro.hw.ac.uk/radiate/doc/dataset/#sensor-calibration
+#         https://github.com/marcelsheeny/radiate_sdk/blob/master/config/default-calib.yaml
+# Convention: P_radar = R @ P_sensor + T  (sensor -> radar frame)
+#             Radar is the origin (T=[0,0,0], R=[0,0,0])
+#             R is a Rodrigues rotation vector (use cv2.Rodrigues to convert to 3x3)
+#             T is translation in meters
+
+# Radar calibration (reference frame — origin)
+radar_calib:
+    T: [0.0, 0.0, 0.0]
+    R: [0.0, 0.0, 0.0]
+
+# LiDAR -> Radar extrinsics
+lidar_calib:
+    T: [0.6003, -0.120102, 0.250012]
+    R: [0.0001655, 0.000213, 0.000934]
+
+# Left camera -> Radar extrinsics + intrinsics
+left_cam_calib:
+    T: [0.34001, -0.06988923, 0.287893]
+    R: [1.278946, -0.530201, 0.000132]
+    fx: 337.9191448899105
+    fy: 338.6957068549526
+    cx: 341.7366010946575
+    cy: 200.7359735313929
+    k1: -0.183879883467351
+    k2: 0.0308609205858947
+    k3: 0
+    p1: 0
+    p2: 0
+    res: [672, 376]
+
+# Right camera -> Radar extrinsics + intrinsics
+right_cam_calib:
+    T: [0.4593822, -0.0600343, 0.287433309324]
+    R: [0.8493049332, 0.37113944, 0.000076230]
+    fx: 337.873451599077
+    fy: 338.530902554779
+    cx: 329.137695760749
+    cy: 186.166590759716
+    k1: -0.181771143569008
+    k2: 0.0295682692890613
+    k3: 0
+    p1: 0
+    p2: 0
+    res: [672, 376]
+
+# Stereo calibration (left-right camera pair)
+stereo_calib:
+    TX: -120.7469
+    TY: 0.1726
+    TZ: 1.1592
+    CV: 0.0257154
+    RX: -0.0206928
+    RZ: -0.000595637
+    R: [[0.999983541478846, 0.000655753417350, -0.005699715684273],
+        [-0.000622470939159, 0.999982758359834, 0.005839136322126],
+        [0.005703446445424, -0.005835492311203, 0.9999667083098977]]
+
+# Radar resolution
+radar:
+    pixels_per_meter: 5.7597  # 1 / 0.17361 m/px
+    meters_per_pixel: 0.17361
+    image_size: [1152, 1152]
+    center_px: [576, 576]
+    max_range_m: 100.0

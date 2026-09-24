@@ -1,0 +1,4 @@
+class,num_objects,total_bbox_entries_full_seq,valid_bboxes_full_seq,valid_bboxes_in_tiny_foggy_18frames
+bus,1,714,59,18
+car,12,8568,269,24
+van,4,2856,81,0

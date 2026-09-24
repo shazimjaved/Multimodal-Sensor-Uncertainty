@@ -1,0 +1,28 @@
+{
+  "total_radar_frames": 714,
+  "temporal_overlap_frames": 711,
+  "usable_frames_all_dt_lt_100ms": 711,
+  "sequence_duration_s": 178.01,
+  "radar_fps": 4.011,
+  "lidar_fps": 9.997,
+  "cam_fps": 14.976,
+  "gps_fps": 40.011,
+  "lidar_sync_ms": {
+    "min": 0.0,
+    "max": 49.85,
+    "mean": 24.87,
+    "median": 25.09
+  },
+  "cam_left_sync_ms": {
+    "min": 0.0,
+    "max": 683.08,
+    "mean": 18.34,
+    "median": 16.75
+  },
+  "cam_right_sync_ms": {
+    "min": 0.0,
+    "max": 683.08,
+    "mean": 18.34,
+    "median": 16.75
+  }
+}

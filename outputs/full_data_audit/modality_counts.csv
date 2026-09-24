@@ -1,0 +1,8 @@
+modality,file_count,extension,size_mb
+Navtech_Cartesian,714,.png,372.0
+Navtech_Polar,714,.png,102.2
+velo_lidar,1799,.csv,1243.9
+zed_left,2659,.png,234.2
+zed_right,2659,.png,236.3
+GPS_IMU_Twist,7200,.txt,6.0
+TOTAL,15745,,2194.6000000000004

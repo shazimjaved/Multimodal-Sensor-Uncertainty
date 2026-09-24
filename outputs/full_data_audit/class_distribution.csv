@@ -1,0 +1,4 @@
+class,num_objects_tracked,total_valid_bboxes,pct_of_all_bboxes
+car,31,1382,84.6
+van,7,193,11.8
+bus,1,59,3.6

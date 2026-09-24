@@ -1,0 +1,23 @@
+name,type,set,approx_radar_frames,approx_size_gb,annotated,lidar_quality,camera_quality,notes
+city_1_0,sunny_parked,train_good_weather,540,1.7,yes,good,good,Parked vehicles; static scenario
+city_2_0,sunny_parked,train_good_weather,540,1.7,yes,good,good,Parked vehicles; static scenario
+city_3_0,overcast_urban,train_good_weather,720,2.3,yes,good,good,Urban driving; dense annotations
+city_4_0,overcast_urban,train_good_weather,720,2.3,yes,good,good,Urban driving
+city_5_0,overcast_urban,test,720,2.3,yes,good,good,TEST set only
+city_6_0,overcast_urban,test,720,2.3,yes,good,good,TEST set only
+motorway_1_0,overcast_motorway,train_good_weather,540,1.7,yes,good,good,High-speed motorway; fewer actors
+motorway_2_0,overcast_motorway,test,540,1.7,yes,good,good,TEST set only
+night_1_0,night_motorway,train_bad_weather,540,1.7,yes,good,dark/degraded,Dark images; radar unaffected
+night_2_0,night_motorway,test,540,1.7,yes,good,dark/degraded,TEST set only
+rain_1_0,rain_suburban,train_bad_weather,600,1.9,yes,slightly_degraded,wet/degraded,Rain attenuation; radar viable
+rain_2_0,rain_suburban,test,600,1.9,yes,slightly_degraded,wet/degraded,TEST set only
+fog_1_0,fog_suburban,train_bad_weather,700,2.1,yes,fog_attenuated,hazy/degraded,PRIMARY TRAINING TARGET - same conditions as fog_6_0
+fog_2_0,fog_suburban,train_bad_weather,700,2.1,yes,fog_attenuated,hazy/degraded,SECONDARY TRAINING TARGET - same conditions
+fog_3_0,fog_suburban,train_bad_weather,700,2.1,yes,fog_attenuated,hazy/degraded,Additional fog if needed
+fog_4_0,fog_suburban,train_bad_weather,700,2.1,yes,fog_attenuated,hazy/degraded,Additional fog if needed
+fog_5_0,fog_suburban,train_bad_weather,700,2.1,yes,fog_attenuated,hazy/degraded,Additional fog if needed
+fog_6_0,fog_suburban,test,714,2.1,yes,fog_attenuated,hazy/degraded,DOWNLOADED AND AUDITED - HELD-OUT TEST SET
+snow_1_0,snow_suburban,train_bad_weather,600,1.9,yes,severely_attenuated,snow/blizzard,LiDAR very sparse; radar viable
+snow_2_0,snow_suburban,train_bad_weather,600,1.9,yes,severely_attenuated,snow/blizzard,LiDAR very sparse in snow
+snow_3_0,snow_suburban,test,600,1.9,yes,severely_attenuated,snow/blizzard,TEST set only
+snow_4_0,snow_suburban,test,600,1.9,yes,severely_attenuated,snow/blizzard,TEST set only

@@ -1,0 +1,25 @@
+{
+  "note": "Temporal split within fog_6_0. meta.json marks this sequence as set=test in the full RADIATE split. For a production system, use separate sequences for train/val/test.",
+  "meta_set": "test",
+  "total_radar_frames": 714,
+  "annotated_radar_frames": 660,
+  "usable_annotated_frames": 657,
+  "prototype_split": {
+    "train": {
+      "radar_frames": "1-499",
+      "count": 499,
+      "annotated": 483
+    },
+    "val": {
+      "radar_frames": "500-606",
+      "count": 107,
+      "annotated": 92
+    },
+    "test": {
+      "radar_frames": "607-714",
+      "count": 108,
+      "annotated": 85
+    }
+  },
+  "split_rationale": "Temporal contiguous blocks prevent neighboring-frame leakage. No random shuffle."
+}

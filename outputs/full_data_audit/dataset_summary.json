@@ -1,0 +1,126 @@
+{
+  "sequence": "fog_6_0",
+  "meta": {
+    "name": "fog_6_0",
+    "type": "fog",
+    "set": "test",
+    "date_created": "Sat Feb 29 03:09:49 2020"
+  },
+  "location": "C:\\Users\\GOGI LAPTOP\\Desktop\\Research\\fog_6_0",
+  "total_size_mb": 2194.6000000000004,
+  "modalities": {
+    "Navtech_Cartesian": {
+      "files": 714,
+      "size_mb": 372.0
+    },
+    "Navtech_Polar": {
+      "files": 714,
+      "size_mb": 102.2
+    },
+    "velo_lidar": {
+      "files": 1799,
+      "size_mb": 1243.9
+    },
+    "zed_left": {
+      "files": 2659,
+      "size_mb": 234.2
+    },
+    "zed_right": {
+      "files": 2659,
+      "size_mb": 236.3
+    },
+    "GPS_IMU_Twist": {
+      "files": 7200,
+      "size_mb": 6.0
+    }
+  },
+  "radar": {
+    "frames": 714,
+    "fps": 4.01,
+    "duration_s": 178.0,
+    "image_size": [
+      1152,
+      1152
+    ]
+  },
+  "lidar": {
+    "frames": 1799,
+    "fps": 10.0,
+    "duration_s": 180.0
+  },
+  "camera_left": {
+    "frames": 2659,
+    "fps": 14.98,
+    "duration_s": 177.6,
+    "resolution": [
+      672,
+      376
+    ]
+  },
+  "camera_right": {
+    "frames": 2659,
+    "fps": 14.98,
+    "duration_s": 177.6,
+    "resolution": [
+      672,
+      376
+    ]
+  },
+  "gps_imu": {
+    "frames": 7200,
+    "fps": 40.01,
+    "duration_s": 180.0
+  },
+  "annotations": {
+    "tracked_objects": 39,
+    "classes": {
+      "car": 31,
+      "van": 7,
+      "bus": 1
+    },
+    "frames_with_annotations": 660,
+    "frames_without_annotations": 54,
+    "total_valid_bboxes": 1634,
+    "valid_bboxes_by_class": {
+      "car": 1382,
+      "van": 193,
+      "bus": 59
+    },
+    "min_objects_per_frame": 0,
+    "max_objects_per_frame": 8,
+    "mean_objects_per_frame": 2.29,
+    "median_objects_per_frame": 2.0,
+    "first_annotated_frame": 1,
+    "last_annotated_frame": 691
+  },
+  "synchronization": {
+    "usable_frames_all_modalities": 711,
+    "usable_annotated_frames": 657,
+    "lidar_sync_ms_max": 49.85,
+    "camera_sync_ms_max": 683.08,
+    "camera_sync_ms_median": 16.75
+  },
+  "split_proposal": {
+    "train": {
+      "frames": "1-499",
+      "count": 499,
+      "annotated": 483
+    },
+    "val": {
+      "frames": "500-606",
+      "count": 107,
+      "annotated": 92
+    },
+    "test": {
+      "frames": "607-714",
+      "count": 108,
+      "annotated": 85
+    }
+  },
+  "readiness": {
+    "exceeds_500_usable_annotated_frames": true,
+    "calibration_verified": true,
+    "all_modalities_present": true,
+    "verdict": "READY FOR MODEL DEVELOPMENT"
+  }
+}
