@@ -1,0 +1,2 @@
+name,source,status,role,meta_set,meta_type,meta_version,radar_frames,lidar_frames,camera_left_frames,camera_right_frames,gps_frames,total_zip_entries,tracked_objects,classes,annotation_bbox_entries,usable_annotated_frames,annotation_coverage_pct,notes
+fog_8_0,Direct zip inspection (fog_8_0.zip on disk),NOT EXTRACTED,TRAIN (conditionally),"train_good_and_bad_weather","fog","1.0",710,1799,2647,2645,7201,15719,9,"van: 1, car: 8",710,205,28.87,"Extremely sparse annotations (28.87% coverage). Only 276 valid bounding boxes."
