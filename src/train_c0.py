@@ -15,6 +15,7 @@ from models.multimodal_detector import BEVMultimodalDetector
 from models.losses import CenterNetLoss, build_centernet_targets
 from eval.evaluator import Evaluator
 from models.centernet_head import CenterNetBEVHead
+from preprocessing.bev_grid import BEVGridConfig
 
 # Set fixed seed
 SEED = 12345
@@ -58,6 +59,7 @@ def collate_fn(batch):
     out['target_labels'] = torch.stack(padded_labels)
     out['target_boxes_bev'] = torch.stack(padded_boxes_bev)
     out['target_boxes_metric'] = torch.stack(padded_boxes_metric)
+    out['ignore_boxes_metric'] = [b['ignore_boxes_metric'] for b in batch]
     
     return out
 
@@ -175,6 +177,7 @@ def main():
         model.eval()
         val_loss = 0.0
         evaluator = Evaluator(num_classes=3, iou_threshold=0.5)
+        bev_cfg = BEVGridConfig()
         
         with torch.no_grad():
             for batch in val_loader:
@@ -214,13 +217,60 @@ def main():
                 # Format predictions
                 batch_preds = []
                 for det in decoded:
+                    boxes_bev = det['boxes'].cpu().numpy()
+                    scores = det['scores'].cpu().numpy()
+                    labels = det['labels'].cpu().numpy()
+                    
+                    boxes_metric = np.zeros_like(boxes_bev)
+                    if len(boxes_bev) > 0:
+                        col = boxes_bev[:, 0]
+                        row = boxes_bev[:, 1]
+                        w_px = boxes_bev[:, 2]
+                        l_px = boxes_bev[:, 3]
+                        angle = boxes_bev[:, 4]
+                        
+                        # Use the evaluator's coordinate grid
+                        # It's instantiated outside the loop as bev_cfg
+                        x_m, y_m = bev_cfg.pixel_to_metric(col, row)
+                        w_m = w_px * bev_cfg.dx
+                        l_m = l_px * bev_cfg.dy
+                        
+                        boxes_metric[:, 0] = x_m
+                        boxes_metric[:, 1] = y_m
+                        boxes_metric[:, 2] = w_m
+                        boxes_metric[:, 3] = l_m
+                        boxes_metric[:, 4] = angle
+                        
                     batch_preds.append({
-                        'boxes': det['boxes'].cpu(),
-                        'scores': det['scores'].cpu(),
-                        'labels': det['labels'].cpu()
+                        'boxes': boxes_metric,
+                        'scores': scores,
+                        'labels': labels
                     })
                     
-                evaluator.add_batch(batch_preds, batch_gts)
+                # Extract ignore boxes
+                batch_ignore_boxes = [ib.cpu().numpy() for ib in batch['ignore_boxes_metric']]
+                    
+                evaluator.add_batch(batch_preds, batch_gts, batch_ignore_boxes)
+                
+                # Diagnostic logging for the very first validation batch of the first epoch
+                if epoch == 0 and not hasattr(evaluator, '_logged_diagnostics'):
+                    print("\n--- VALIDATION DIAGNOSTIC AUDIT (BATCH 1) ---")
+                    for b_idx in range(len(batch_preds)):
+                        pb = batch_preds[b_idx]['boxes']
+                        gb = batch_gts[b_idx]
+                        ib = batch_ignore_boxes[b_idx]
+                        print(f" Frame {b_idx}:")
+                        print(f"   Predictions: {len(pb)}")
+                        if len(pb) > 0:
+                            print(f"     X_m range: [{pb[:,0].min():.1f}, {pb[:,0].max():.1f}]")
+                            print(f"     Y_m range: [{pb[:,1].min():.1f}, {pb[:,1].max():.1f}]")
+                        print(f"   GT boxes: {len(gb)}")
+                        if len(gb) > 0:
+                            print(f"     X_m range: [{gb[:,0].min():.1f}, {gb[:,0].max():.1f}]")
+                            print(f"     Y_m range: [{gb[:,1].min():.1f}, {gb[:,1].max():.1f}]")
+                        print(f"   Ignore boxes: {len(ib)}")
+                    evaluator._logged_diagnostics = True
+                    print("---------------------------------------------\n")
                 
         avg_val_loss = val_loss / len(val_loader)
         metrics = evaluator.compute_metrics()
