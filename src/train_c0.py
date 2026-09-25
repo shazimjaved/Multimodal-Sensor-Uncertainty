@@ -147,7 +147,8 @@ def main():
         train_loss = 0.0
         for i, batch in enumerate(train_loader):
             for k in batch:
-                batch[k] = batch[k].to(device)
+                if torch.is_tensor(batch[k]):
+                    batch[k] = batch[k].to(device, non_blocking=True)
                 
             optimizer.zero_grad()
             
@@ -182,7 +183,8 @@ def main():
         with torch.no_grad():
             for batch in val_loader:
                 for k in batch:
-                    batch[k] = batch[k].to(device)
+                    if torch.is_tensor(batch[k]):
+                        batch[k] = batch[k].to(device, non_blocking=True)
                     
                 outputs = model(batch)
                 targets = build_centernet_targets(
