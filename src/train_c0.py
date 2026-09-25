@@ -68,6 +68,12 @@ def get_git_commit():
         return "Unknown"
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Run C0 Controlled Baseline Training")
+    parser.add_argument("--data_dir", type=str, default="city_3_0", help="Path to city_3_0 dataset")
+    parser.add_argument("--calib", type=str, default="config/default-calib.yaml", help="Path to default-calib.yaml")
+    args = parser.parse_args()
+
     print("Initializing C0 Baseline Training...")
     
     output_dir = "outputs/c0_baseline"
@@ -77,10 +83,10 @@ def main():
     print(f"Using device: {device}")
     
     # 1. Dataset Setup
-    calib = RadiateCalib("config/default-calib.yaml")
+    calib = RadiateCalib(args.calib)
     
-    train_idx = RadiateIndexer("city_3_0", split="train")
-    val_idx = RadiateIndexer("city_3_0", split="val")
+    train_idx = RadiateIndexer(args.data_dir, split="train")
+    val_idx = RadiateIndexer(args.data_dir, split="val")
     
     train_ds = RadiateMultimodalDataset(train_idx, calib)
     val_ds = RadiateMultimodalDataset(val_idx, calib)
