@@ -25,8 +25,8 @@ To test this hypothesis, we establish a **two-tier experimental paradigm**:
 
 ```mermaid
 graph TD
-    A[city_3_0: 709 Usable Frames] --> B[Train Split: Frames 5-536<br>532 Frames / 75.0%]
-    A --> C[Validation Split: Frames 537-713<br>177 Frames / 25.0%]
+    A[city_3_0: 709 Usable Frames] --> B[Train Split: Frames 5-626<br>622 Frames / 87.7%]
+    A --> C[Validation Split: Frames 627-713<br>87 Frames / 25.0%]
     
     B --> D[Train Multimodal & Single-Modality Models<br>C0 Clean Baseline Only]
     
@@ -51,9 +51,9 @@ graph TD
 ### Split Definition
 - **Total Usable Frames:** 709 frames (Radar Frame 000005 to Frame 000713).
 - **Excluded Frames (1–4):** Excluded due to initial camera startup delay ($\Delta t > 150\text{ ms}$).
-- **Train Split (75.04%):** **Radar Frames 000005 to 000536** (532 frames)
+- **Train Split (87.73%):** **Radar Frames 000005 to 000626** (622 frames)
   - Time window: $t = 1563273881.815\text{ s}$ to $t = 1563274014.513\text{ s}$ ($\Delta t = 132.70\text{ s}$)
-- **Validation Split (24.96%):** **Radar Frames 000537 to 000713** (177 frames)
+- **Validation Split (12.27%):** **Radar Frames 000627 to 000713** (87 frames)
   - Time window: $t = 1563274014.763\text{ s}$ to $t = 1563274058.853\text{ s}$ ($\Delta t = 44.09\text{ s}$)
 
 ### Scientific Justification: Why Random Splitting Is Prohibited
@@ -255,8 +255,8 @@ In object detection, calibration is evaluated over **prediction events** (candid
 ## 10. Summary of Protocol Locks & Recommended Implementation Order
 
 ### Locked Specifications
-1. **Train Split:** `city_3_0` Frames 000005 to 000536 (532 frames, 75.04%).
-2. **Val Split:** `city_3_0` Frames 000537 to 000713 (177 frames, 24.96%).
+1. **Train Split:** `city_3_0` Frames 000005 to 000626 (622 frames, 87.73%).
+2. **Val Split:** `city_3_0` Frames 000627 to 000713 (87 frames, 12.27%).
 3. **Test Set:** `fog_6_0` (Held out, 657 usable multimodal frames).
 4. **Primary Classes:** `{car, van, bus}` in Radar BEV (non-vehicle classes ignored; raw labels preserved).
 5. **Degradation Profiles:** Depth-dependent Koschmieder camera fog (projected LiDAR depth), Beer-Lambert LiDAR extinction, Controlled radar corruption.

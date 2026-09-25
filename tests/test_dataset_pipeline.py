@@ -43,7 +43,7 @@ def bev_cfg():
 def train_indexer():
     return RadiateIndexer(
         dataset_dir=CITY_DIR,
-        split_range=(5, 536),
+        split_range=(5, 626),
         exclude_frames=[1, 2, 3, 4],
         max_dt_sec=0.050
     )
@@ -53,7 +53,7 @@ def train_indexer():
 def val_indexer():
     return RadiateIndexer(
         dataset_dir=CITY_DIR,
-        split_range=(537, 713),
+        split_range=(627, 713),
         exclude_frames=[1, 2, 3, 4],
         max_dt_sec=0.050
     )
@@ -66,10 +66,10 @@ def val_indexer():
 class TestDatasetIndexing:
 
     def test_train_split_exact_count(self, train_indexer):
-        assert len(train_indexer) == 532, f"Expected 532 train frames, got {len(train_indexer)}"
+        assert len(train_indexer) == 622, f"Expected 622 train frames, got {len(train_indexer)}"
 
     def test_val_split_exact_count(self, val_indexer):
-        assert len(val_indexer) == 177, f"Expected 177 val frames, got {len(val_indexer)}"
+        assert len(val_indexer) == 87, f"Expected 87 val frames, got {len(val_indexer)}"
 
     def test_combined_usable_count(self, train_indexer, val_indexer):
         assert len(train_indexer) + len(val_indexer) == 709

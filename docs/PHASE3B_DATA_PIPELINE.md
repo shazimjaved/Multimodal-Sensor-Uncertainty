@@ -94,9 +94,9 @@ All original annotations from `annotations.json` are retained uncompressed under
 - **Synchronization Threshold**: Maximum allowed temporal offset is $\Delta t_{\max} = 0.050\text{ s}$ ($50\text{ ms}$). Any frame exceeding this is discarded and logged.
 - **Startup Frame Filtering**: `city_3_0` frames `000001`–`000004` are systematically excluded due to camera initialization delay ($> 300\text{ ms}$ temporal offset).
 - **Usable Frame Counts**:
-  - `city_3_0` **TRAIN** (frames `000005`–`000536`): **532 frames** (Mean $|\Delta t_{\text{lidar}}| \approx 13.5\text{ ms}$, Mean $|\Delta t_{\text{cam}}| \approx 14.1\text{ ms}$).
-  - `city_3_0` **VAL** (frames `000537`–`000713`): **177 frames** (Mean $|\Delta t_{\text{lidar}}| \approx 13.9\text{ ms}$, Mean $|\Delta t_{\text{cam}}| \approx 13.8\text{ ms}$).
-  - `city_3_0` **Total Usable**: **709 frames** ($532 + 177$).
+  - `city_3_0` **TRAIN** (frames `000005`–`000626`): **622 frames** (Mean $|\Delta t_{\text{lidar}}| \approx 13.5\text{ ms}$, Mean $|\Delta t_{\text{cam}}| \approx 14.1\text{ ms}$).
+  - `city_3_0` **VAL** (frames `000627`–`000713`): **87 frames** (Mean $|\Delta t_{\text{lidar}}| \approx 13.9\text{ ms}$, Mean $|\Delta t_{\text{cam}}| \approx 13.8\text{ ms}$).
+  - `city_3_0` **Total Usable**: **709 frames** ($622 + 87$).
   - `fog_6_0` **HELD-OUT TEST**: **711 synchronized frames** ($\le 50\text{ ms}$), comprising **657 target-annotated frames** (Primary Detection/Calibration Evaluation Benchmark) and **54 empty roadway frames** (False-Alarm Diagnostic Set). Startup frames `000001`–`000003` excluded due to camera latency ($> 50\text{ ms}$). Full audit in [`docs/PHASE3B_MODALITY_DEPENDENCY_AUDIT.md`](file:///c:/Users/GOGI%20LAPTOP/Desktop/Research/docs/PHASE3B_MODALITY_DEPENDENCY_AUDIT.md).
 
 ---
@@ -116,7 +116,7 @@ Four representative frames were evaluated end-to-end to verify data shapes, sync
 
 ### 6.2 Test Suite Execution
 The automated test suite (`tests/test_dataset_pipeline.py` and `tests/test_calibration.py`) verified:
-- Exact train/val frame counts ($532$ and $177$) and zero frame overlap.
+- Exact train/val frame counts ($622$ and $87$) and zero frame overlap.
 - Startup frames `000001`–`000004` exclusion.
 - All temporal deltas $\le 50\text{ ms}$ with strictly monotonic timestamps.
 - Exact tensor shapes and ranges ($[0, 1]$ float32).

@@ -179,7 +179,7 @@ def main():
     bev_cfg = BEVGridConfig(bev_height=512, bev_width=512)
     
     # 1. city_3_0 Early Train Frame 000005
-    idx_train = RadiateIndexer(os.path.join(BASE_DIR, 'city_3_0'), split_range=(5, 536), exclude_frames=[1, 2, 3, 4])
+    idx_train = RadiateIndexer(os.path.join(BASE_DIR, 'city_3_0'), split_range=(5, 626), exclude_frames=[1, 2, 3, 4])
     ds_train = RadiateMultimodalDataset(idx_train, calib, bev_cfg)
     generate_visual(ds_train[0], 'debug_bev_city3_0_train_frame_000005.png', 'city_3_0 Train')
     
@@ -188,7 +188,7 @@ def main():
     generate_visual(ds_train[idx_100], 'debug_bev_city3_0_train_frame_000100.png', 'city_3_0 Train')
     
     # 3. city_3_0 Val Frame 000550
-    idx_val = RadiateIndexer(os.path.join(BASE_DIR, 'city_3_0'), split_range=(537, 713), exclude_frames=[1, 2, 3, 4])
+    idx_val = RadiateIndexer(os.path.join(BASE_DIR, 'city_3_0'), split_range=(627, 713), exclude_frames=[1, 2, 3, 4])
     ds_val = RadiateMultimodalDataset(idx_val, calib, bev_cfg)
     idx_550 = next(i for i, r in enumerate(idx_val) if r['radar_frame'] == 550)
     generate_visual(ds_val[idx_550], 'debug_bev_city3_0_val_frame_000550.png', 'city_3_0 Val')

@@ -425,17 +425,17 @@ class TestDatasetCountsAndIntegrity:
     """Verifies dataset frame counts, startup exclusions, and split sizes on disk."""
 
     def test_city_3_0_counts(self):
-        """city_3_0 must have 713 radar frames, 4 startup exclusions, 532 train, 177 val."""
+        """city_3_0 must have 713 radar frames, 4 startup exclusions, 622 train, 87 val."""
         radar_ts = parse_timestamp_file(os.path.join(CITY_DIR, "Navtech_Cartesian.txt"))
         assert len(radar_ts) == 713
 
-        train_frames = [fid for fid in radar_ts if 5 <= fid <= 536]
-        val_frames   = [fid for fid in radar_ts if 537 <= fid <= 713]
+        train_frames = [fid for fid in radar_ts if 5 <= fid <= 626]
+        val_frames   = [fid for fid in radar_ts if 627 <= fid <= 713]
         startup      = [fid for fid in radar_ts if 1 <= fid <= 4]
 
         assert len(startup) == 4
-        assert len(train_frames) == 532
-        assert len(val_frames) == 177
+        assert len(train_frames) == 622
+        assert len(val_frames) == 87
         assert len(train_frames) + len(val_frames) == 709
 
     def test_fog_6_0_counts(self):

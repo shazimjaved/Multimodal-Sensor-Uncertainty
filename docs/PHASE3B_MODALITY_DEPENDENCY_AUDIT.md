@@ -78,8 +78,8 @@ To demonstrate methodological symmetry, the identical audit was executed on `cit
 
 | Sequence Split | Total Radar | Sync ($\le 50\text{ms}$) | Annotated | Target Annotated | Eval Population | Excluded Reason |
 |---|---|---|---|---|---|---|
-| **`city_3_0` Train** | 532 | 532 | 532 (100%) | 532 (100%) | **532** | None (frames 000005–000536) |
-| **`city_3_0` Val** | 177 | 177 | 177 (100%) | 177 (100%) | **177** | None (frames 000537–000713) |
+| **`city_3_0` Train** | 622 | 622 | 622 (100%) | 622 (100%) | **622** | None (frames 000005–000626) |
+| **`city_3_0` Val** | 87 | 87 | 87 (100%) | 87 (100%) | **87** | None (frames 000627–000713) |
 | **`city_3_0` Startup** | 4 | 0 | 4 (100%) | 4 (100%) | **0** | Desynchronized startup (frames 1–4, $\Delta t_{\text{cam}} > 50\text{ms}$) |
 | **`city_3_0` Combined**| 713 | 709 | 713 (100%) | 713 (100%) | **709** | 4 startup frames excluded |
 | **`fog_6_0` Test** | 714 | 711 | 660 (92.4%)| 660 (92.4%)| **657** | 3 startup frames desynced; 54 frames unannotated |

@@ -25,14 +25,14 @@ datasets:
     excluded_frames: [1, 2, 3, 4] # Discarded due to ZED camera warmup offset (>50ms)
     train_split:
       start_frame: 5
-      end_frame: 536
-      total_frames: 532
+      end_frame: 626
+      total_frames: 622
       percentage: 75.04
       timestamp_range: [1563273881.815465, 1563274014.512915]
     val_split:
-      start_frame: 537
+      start_frame: 627
       end_frame: 713
-      total_frames: 177
+      total_frames: 87
       percentage: 24.96
       timestamp_range: [1563274014.762915, 1563274058.852597]
     split_rationale: "Strict chronological partitioning prevents spatial/temporal data leakage between adjacent 4Hz frames."

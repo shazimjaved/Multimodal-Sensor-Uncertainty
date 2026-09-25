@@ -27,10 +27,10 @@ class RadiateIndexer:
     ):
         self.dataset_dir = dataset_dir
         if split == "train":
-            split_range = (5, 536)
+            split_range = (5, 626)
             exclude_frames = [1, 2, 3, 4]
         elif split in ("val", "validation"):
-            split_range = (537, 713)
+            split_range = (627, 713)
             exclude_frames = []
         self.split_range = split_range
         self.exclude_frames = set(exclude_frames or [])

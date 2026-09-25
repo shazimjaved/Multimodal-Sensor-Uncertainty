@@ -261,8 +261,8 @@ Every critical geometry issue has been resolved with mathematical proofs, unit t
 | **Total Radar Frames** | `000001`–`000713` | **713** | 100.0% | Complete radar capture sequence |
 | **Startup Desync Exclusions** | `000001`–`000004` | **4** | 0.56% | Timestamp sync offset $> 50\text{ ms}$ |
 | **Usable Synchronized Frames** | `000005`–`000713` | **709** | 99.44% | Multimodal sync offset $\le 50\text{ ms}$ |
-| **Chronological Train Split** | `000005`–`000536` | **532** | 75.04% | Early/mid sequence (chronological, no leakage) |
-| **Chronological Val Split** | `000537`–`000713` | **177** | 24.96% | Late sequence (chronological, no leakage) |
+| **Chronological Train Split** | `000005`–`000626` | **622** | 87.73% | Early/mid sequence (chronological, no leakage) |
+| **Chronological Val Split** | `000627`–`000713` | **87** | 12.27% | Late sequence (chronological, no leakage) |
 
 ---
 
