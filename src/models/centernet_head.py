@@ -52,7 +52,7 @@ class CenterNetBEVHead(nn.Module):
             nn.Conv2d(in_channels, head_conv, kernel_size=3, padding=1, bias=True),
             nn.ReLU(inplace=True),
             nn.Conv2d(head_conv, 2, kernel_size=1, bias=True),
-            nn.ReLU(inplace=True),  # Positive dimensions
+            nn.Softplus(),  # Positive dimensions, non-zero gradient for negatives
         )
 
         # 4. Orientation Head (sin(theta), cos(theta) continuous vector)
