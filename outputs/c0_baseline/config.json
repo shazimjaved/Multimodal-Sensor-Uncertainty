@@ -1,0 +1,11 @@
+{
+    "experiment": "C0_Controlled_Baseline",
+    "dataset": "city_3_0",
+    "train_split": "5-626",
+    "val_split": "627-713",
+    "seed": 12345,
+    "batch_size": 2,
+    "learning_rate": 0.0001,
+    "epochs": 10,
+    "git_commit": "f88d889419d5e0dcdb7f0425957a2d8aa22c535f"
+}

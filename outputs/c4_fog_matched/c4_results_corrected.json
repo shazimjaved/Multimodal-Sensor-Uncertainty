@@ -1,0 +1,170 @@
+{
+    "checkpoint": "/kaggle/working/Multimodal-Sensor-Uncertainty/outputs/c0_baseline/checkpoint_best.pth",
+    "seed": 12345,
+    "validation_samples": 87,
+    "condition_definition": "Fog-matched synthetic degradation: camera and LiDAR degraded at matched severity; radar remains clean.",
+    "camera_runtime_parameters": {
+        "0": {
+            "name": "Clean",
+            "beta": 0.0,
+            "blur_sigma": 0.0,
+            "contrast_scale": 1.0,
+            "visibility_m": 300.0
+        },
+        "1": {
+            "name": "Light Fog",
+            "beta": 0.02,
+            "blur_sigma": 1.0,
+            "contrast_scale": 0.85,
+            "visibility_m": 150.0
+        },
+        "2": {
+            "name": "Moderate Fog",
+            "beta": 0.05,
+            "blur_sigma": 2.0,
+            "contrast_scale": 0.65,
+            "visibility_m": 60.0
+        },
+        "3": {
+            "name": "Dense Fog",
+            "beta": 0.1,
+            "blur_sigma": 3.5,
+            "contrast_scale": 0.45,
+            "visibility_m": 30.0
+        }
+    },
+    "lidar_runtime_parameters": {
+        "0": {
+            "name": "Clean",
+            "alpha_ext": 0.0,
+            "max_range_m": 85.0,
+            "range_jitter_std_m": 0.0,
+            "clutter_count": 0
+        },
+        "1": {
+            "name": "Light Attenuation",
+            "alpha_ext": 0.01,
+            "max_range_m": 65.0,
+            "range_jitter_std_m": 0.02,
+            "clutter_count": 150
+        },
+        "2": {
+            "name": "Moderate Attenuation",
+            "alpha_ext": 0.025,
+            "max_range_m": 45.0,
+            "range_jitter_std_m": 0.05,
+            "clutter_count": 300
+        },
+        "3": {
+            "name": "Severe Fog Extinction",
+            "alpha_ext": 0.05,
+            "max_range_m": 25.0,
+            "range_jitter_std_m": 0.08,
+            "clutter_count": 450
+        }
+    },
+    "results": [
+        {
+            "condition": "C4-L1",
+            "base_condition": "C4",
+            "severity": 1,
+            "mAP@0.50": 0.3143282521944658,
+            "precision_macro_gt_present": 0.21597295398665262,
+            "recall_macro_gt_present": 0.5074482377113956,
+            "f1_macro_gt_present": 0.2862202585866964,
+            "ECE": 0.08599162674298493,
+            "NLL": 0.3445006967116611,
+            "Brier": 0.09870702366684807,
+            "AP_class_0": 0.18880510817444526,
+            "AP_class_1": 0.4398513962144863,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.22883018851280212,
+            "prediction_event_accuracy": 0.15711135611907387,
+            "confidence_minus_event_accuracy": 0.07171883239372825,
+            "total_predictions": 1862,
+            "pred_class_0": 1113,
+            "pred_class_1": 530,
+            "pred_class_2": 219,
+            "elapsed_seconds": 40.418172121047974,
+            "delta_mAP_vs_C0": -0.024354667432701593,
+            "delta_ECE_vs_C0": 0.012291626742984924,
+            "delta_NLL_vs_C0": -0.03919930328833887,
+            "delta_Brier_vs_C0": -0.016192976333151934
+        },
+        {
+            "condition": "C4-L2",
+            "base_condition": "C4",
+            "severity": 2,
+            "mAP@0.50": 0.2862744023023502,
+            "precision_macro_gt_present": 0.200872112815101,
+            "recall_macro_gt_present": 0.43264975501817604,
+            "f1_macro_gt_present": 0.2653461217681401,
+            "ECE": 0.09060738337126487,
+            "NLL": 0.3195471451231839,
+            "Brier": 0.08876452935199516,
+            "AP_class_0": 0.15553273752650507,
+            "AP_class_1": 0.4170160670781953,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.22580663859844208,
+            "prediction_event_accuracy": 0.15063520871143377,
+            "confidence_minus_event_accuracy": 0.07517142988700831,
+            "total_predictions": 1702,
+            "pred_class_0": 883,
+            "pred_class_1": 548,
+            "pred_class_2": 271,
+            "elapsed_seconds": 40.3540358543396,
+            "delta_mAP_vs_C0": -0.052408517324817216,
+            "delta_ECE_vs_C0": 0.016907383371264864,
+            "delta_NLL_vs_C0": -0.0641528548768161,
+            "delta_Brier_vs_C0": -0.026135470648004838
+        },
+        {
+            "condition": "C4-L3",
+            "base_condition": "C4",
+            "severity": 3,
+            "mAP@0.50": 0.21962203684137066,
+            "precision_macro_gt_present": 0.24618801378944577,
+            "recall_macro_gt_present": 0.31580923028291447,
+            "f1_macro_gt_present": 0.27259791556545804,
+            "ECE": 0.08734515066974938,
+            "NLL": 0.3541125770529257,
+            "Brier": 0.1030472928845153,
+            "AP_class_0": 0.10000545204081934,
+            "AP_class_1": 0.339238621641922,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.2350216507911682,
+            "prediction_event_accuracy": 0.19412381951731375,
+            "confidence_minus_event_accuracy": 0.04089783127385446,
+            "total_predictions": 970,
+            "pred_class_0": 420,
+            "pred_class_1": 363,
+            "pred_class_2": 187,
+            "elapsed_seconds": 39.57189655303955,
+            "delta_mAP_vs_C0": -0.11906088278579674,
+            "delta_ECE_vs_C0": 0.013645150669749376,
+            "delta_NLL_vs_C0": -0.029587422947074282,
+            "delta_Brier_vs_C0": -0.011852707115484695
+        }
+    ]
+}

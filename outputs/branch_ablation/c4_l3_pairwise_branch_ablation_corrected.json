@@ -1,0 +1,148 @@
+{
+    "condition": "C4-L3 severe synthetic camera+LiDAR degradation",
+    "checkpoint": "/kaggle/working/Multimodal-Sensor-Uncertainty/outputs/c0_baseline/checkpoint_best.pth",
+    "methodology": "Inference-time branch ablation of the same frozen multimodal checkpoint under C4-L3. Radar remains clean in C4. These are not separately trained unimodal architectures.",
+    "results": [
+        {
+            "condition": "C4-L3",
+            "base_condition": "C4",
+            "severity": 3,
+            "mAP@0.50": 0.21962203684137066,
+            "precision_macro_gt_present": 0.24618801378944577,
+            "recall_macro_gt_present": 0.31580923028291447,
+            "f1_macro_gt_present": 0.27259791556545804,
+            "ECE": 0.08734515066974938,
+            "NLL": 0.3541125770529257,
+            "Brier": 0.1030472928845153,
+            "AP_class_0": 0.10000545204081934,
+            "AP_class_1": 0.339238621641922,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.2350216507911682,
+            "prediction_event_accuracy": 0.19412381951731375,
+            "confidence_minus_event_accuracy": 0.04089783127385446,
+            "total_predictions": 970,
+            "pred_class_0": 420,
+            "pred_class_1": 363,
+            "pred_class_2": 187,
+            "elapsed_seconds": 39.57189655303955,
+            "delta_mAP_vs_C0": -0.11906088278579674,
+            "delta_ECE_vs_C0": 0.013645150669749376,
+            "delta_NLL_vs_C0": -0.029587422947074282,
+            "delta_Brier_vs_C0": -0.011852707115484695,
+            "active_modalities": [
+                "radar",
+                "lidar",
+                "camera"
+            ]
+        },
+        {
+            "condition": "C4-L3-Radar-LiDAR",
+            "base_condition": "C4",
+            "severity": 3,
+            "mAP@0.50": 0.20221246367295048,
+            "precision_macro_gt_present": 0.4894472947761194,
+            "recall_macro_gt_present": 0.2673067804646752,
+            "f1_macro_gt_present": 0.3281451855522325,
+            "ECE": 0.15154338921672608,
+            "NLL": 0.6716471486931364,
+            "Brier": 0.23415437382358736,
+            "AP_class_0": 0.10563924759714173,
+            "AP_class_1": 0.29878567974875925,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.23023001849651337,
+            "prediction_event_accuracy": 0.3817733990147783,
+            "confidence_minus_event_accuracy": -0.15154338051826494,
+            "total_predictions": 410,
+            "pred_class_0": 256,
+            "pred_class_1": 134,
+            "pred_class_2": 20,
+            "elapsed_seconds": 39.34983944892883,
+            "active_modalities": [
+                "radar",
+                "lidar"
+            ]
+        },
+        {
+            "condition": "C4-L3-Radar-Camera",
+            "base_condition": "C4",
+            "severity": 3,
+            "mAP@0.50": 0.19447412554859855,
+            "precision_macro_gt_present": 0.2276789689960943,
+            "recall_macro_gt_present": 0.3027698751382962,
+            "f1_macro_gt_present": 0.2579037314431508,
+            "ECE": 0.06802447205367644,
+            "NLL": 0.3798287989062178,
+            "Brier": 0.11412854480624506,
+            "AP_class_0": 0.06619176880520028,
+            "AP_class_1": 0.3227564822919968,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.21148978173732758,
+            "prediction_event_accuracy": 0.20179372197309417,
+            "confidence_minus_event_accuracy": 0.009696059764233406,
+            "total_predictions": 913,
+            "pred_class_0": 401,
+            "pred_class_1": 398,
+            "pred_class_2": 114,
+            "elapsed_seconds": 40.105440855026245,
+            "active_modalities": [
+                "radar",
+                "camera"
+            ]
+        },
+        {
+            "condition": "C4-L3-LiDAR-Camera",
+            "base_condition": "C4",
+            "severity": 3,
+            "mAP@0.50": 0.0,
+            "precision_macro_gt_present": 0.0,
+            "recall_macro_gt_present": 0.0,
+            "f1_macro_gt_present": 0.0,
+            "ECE": 0.1046723872423172,
+            "NLL": 0.1105722077190876,
+            "Brier": 0.010966880589905421,
+            "AP_class_0": 0.0,
+            "AP_class_1": 0.0,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.1046723872423172,
+            "prediction_event_accuracy": 0.0,
+            "confidence_minus_event_accuracy": 0.1046723872423172,
+            "total_predictions": 8,
+            "pred_class_0": 8,
+            "pred_class_1": 0,
+            "pred_class_2": 0,
+            "elapsed_seconds": 39.373985290527344,
+            "active_modalities": [
+                "lidar",
+                "camera"
+            ]
+        }
+    ]
+}

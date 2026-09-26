@@ -1,0 +1,108 @@
+{
+    "checkpoint": "/kaggle/working/Multimodal-Sensor-Uncertainty/outputs/c0_baseline/checkpoint_best.pth",
+    "evaluation_condition": "C0 clean validation",
+    "methodology": "Inference-time pairwise branch ablation of the frozen multimodal checkpoint. These are not separately trained architectures.",
+    "results": [
+        {
+            "configuration": "Full-Multimodal",
+            "active_modalities": [
+                "radar",
+                "lidar",
+                "camera"
+            ],
+            "mAP@0.50": 0.33868291962716734,
+            "precision_macro_gt_present": 0.25896709618714964,
+            "recall_macro_gt_present": 0.5311166429587482,
+            "f1_macro_gt_present": 0.3219523505883717,
+            "ECE": 0.07366667316498952,
+            "NLL": 0.3836997202861462,
+            "Brier": 0.11491413018230685,
+            "mean_prediction_confidence": 0.23833566904067993,
+            "prediction_event_accuracy": 0.18159658744667886,
+            "confidence_minus_event_accuracy": 0.05673908159400107,
+            "AP_class_0": 0.21746212628218506,
+            "AP_class_1": 0.45990371297214966,
+            "AP_class_2": 0.0,
+            "total_predictions": 1678,
+            "pred_class_0": 1113,
+            "pred_class_1": 443,
+            "pred_class_2": 122,
+            "elapsed_seconds": 22.26772379875183
+        },
+        {
+            "configuration": "Radar-LiDAR",
+            "active_modalities": [
+                "radar",
+                "lidar"
+            ],
+            "mAP@0.50": 0.2834978699617036,
+            "precision_macro_gt_present": 0.3804665242165242,
+            "recall_macro_gt_present": 0.4436936936936937,
+            "f1_macro_gt_present": 0.3482739093735643,
+            "ECE": 0.013191631262880242,
+            "NLL": 0.4777541081101157,
+            "Brier": 0.15399105542707767,
+            "mean_prediction_confidence": 0.21993215382099152,
+            "prediction_event_accuracy": 0.2318702290076336,
+            "confidence_minus_event_accuracy": -0.011938075186642083,
+            "AP_class_0": 0.21121936071767794,
+            "AP_class_1": 0.3557763792057293,
+            "AP_class_2": 0.0,
+            "total_predictions": 1064,
+            "pred_class_0": 820,
+            "pred_class_1": 212,
+            "pred_class_2": 32,
+            "elapsed_seconds": 20.97524380683899
+        },
+        {
+            "configuration": "Radar-Camera-BEV",
+            "active_modalities": [
+                "radar",
+                "camera"
+            ],
+            "mAP@0.50": 0.2557866744196187,
+            "precision_macro_gt_present": 0.2877652933832709,
+            "recall_macro_gt_present": 0.3937490121700648,
+            "f1_macro_gt_present": 0.3227437479405983,
+            "ECE": 0.06722070763713306,
+            "NLL": 0.4371923030037241,
+            "Brier": 0.13693312848249384,
+            "mean_prediction_confidence": 0.211855947971344,
+            "prediction_event_accuracy": 0.23711340206185566,
+            "confidence_minus_event_accuracy": -0.025257454090511666,
+            "AP_class_0": 0.10584220702832715,
+            "AP_class_1": 0.4057311418109103,
+            "AP_class_2": 0.0,
+            "total_predictions": 999,
+            "pred_class_0": 536,
+            "pred_class_1": 366,
+            "pred_class_2": 97,
+            "elapsed_seconds": 21.07816791534424
+        },
+        {
+            "configuration": "LiDAR-Camera-BEV",
+            "active_modalities": [
+                "lidar",
+                "camera"
+            ],
+            "mAP@0.50": 0.00562200956937799,
+            "precision_macro_gt_present": 0.06666666666666667,
+            "recall_macro_gt_present": 0.008771929824561403,
+            "f1_macro_gt_present": 0.015503875968992248,
+            "ECE": 0.020389780898888904,
+            "NLL": 0.3692493977646033,
+            "Brier": 0.1104933900055479,
+            "mean_prediction_confidence": 0.11294355243444443,
+            "prediction_event_accuracy": 0.13333333333333333,
+            "confidence_minus_event_accuracy": -0.020389780898888904,
+            "AP_class_0": 0.01124401913875598,
+            "AP_class_1": 0.0,
+            "AP_class_2": 0.0,
+            "total_predictions": 30,
+            "pred_class_0": 30,
+            "pred_class_1": 0,
+            "pred_class_2": 0,
+            "elapsed_seconds": 20.928250312805176
+        }
+    ]
+}

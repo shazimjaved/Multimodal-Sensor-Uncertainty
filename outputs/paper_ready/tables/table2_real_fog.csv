@@ -1,0 +1,2 @@
+Frames,mAP@0.50 (3-class),Car+Van mAP,Car AP,Van AP,Bus AP,ECE,Recall,Mean Conf.,Event Acc.
+657,0.2221,0.3257,0.6365,0.015,0.0147,0.1204,0.4917,0.211,0.1477

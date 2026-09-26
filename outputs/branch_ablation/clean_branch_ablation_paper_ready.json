@@ -1,0 +1,110 @@
+{
+    "checkpoint": "/kaggle/working/Multimodal-Sensor-Uncertainty/outputs/c0_baseline/checkpoint_best.pth",
+    "evaluation_condition": "C0 clean validation",
+    "methodology": "Inference-time branch ablation of the same frozen multimodal checkpoint. These are not separately trained unimodal models.",
+    "results": [
+        {
+            "configuration": "Full-Multimodal",
+            "active_modalities": [
+                "radar",
+                "lidar",
+                "camera"
+            ],
+            "mAP@0.50": 0.33868291962716734,
+            "precision_macro_gt_present": 0.25896709618714964,
+            "recall_macro_gt_present": 0.5311166429587482,
+            "f1_macro_gt_present": 0.3219523505883717,
+            "ECE": 0.07366667316498952,
+            "NLL": 0.3836997202861462,
+            "Brier": 0.11491413018230685,
+            "mean_prediction_confidence": 0.23833566904067993,
+            "prediction_event_accuracy": 0.18159658744667886,
+            "confidence_minus_event_accuracy": 0.05673908159400107,
+            "AP_class_0": 0.21746212628218506,
+            "AP_class_1": 0.45990371297214966,
+            "AP_class_2": 0.0,
+            "total_predictions": 1678,
+            "pred_class_0": 1113,
+            "pred_class_1": 443,
+            "pred_class_2": 122,
+            "elapsed_seconds": 22.446803331375122,
+            "calibration_defined": true
+        },
+        {
+            "configuration": "Radar-Branch-Only",
+            "active_modalities": [
+                "radar"
+            ],
+            "mAP@0.50": 0.16916533132832978,
+            "precision_macro_gt_present": 0.47899342811158796,
+            "recall_macro_gt_present": 0.24294689426268373,
+            "f1_macro_gt_present": 0.3080260303687636,
+            "ECE": 0.20575784154797117,
+            "NLL": 0.729032666071929,
+            "Brier": 0.25561755533841973,
+            "mean_prediction_confidence": 0.17964129149913788,
+            "prediction_event_accuracy": 0.3817204301075269,
+            "confidence_minus_event_accuracy": -0.202079138608389,
+            "AP_class_0": 0.06906379743046256,
+            "AP_class_1": 0.269266865226197,
+            "AP_class_2": 0.0,
+            "total_predictions": 375,
+            "pred_class_0": 234,
+            "pred_class_1": 130,
+            "pred_class_2": 11,
+            "elapsed_seconds": 20.360921144485474,
+            "calibration_defined": true
+        },
+        {
+            "configuration": "LiDAR-BEV-Branch-Only",
+            "active_modalities": [
+                "lidar"
+            ],
+            "mAP@0.50": 0.0,
+            "precision_macro_gt_present": 0.0,
+            "recall_macro_gt_present": 0.0,
+            "f1_macro_gt_present": 0.0,
+            "ECE": null,
+            "NLL": null,
+            "Brier": null,
+            "mean_prediction_confidence": 0.0,
+            "prediction_event_accuracy": 0.0,
+            "confidence_minus_event_accuracy": 0.0,
+            "AP_class_0": 0.0,
+            "AP_class_1": 0.0,
+            "AP_class_2": 0.0,
+            "total_predictions": 0,
+            "pred_class_0": 0,
+            "pred_class_1": 0,
+            "pred_class_2": 0,
+            "elapsed_seconds": 20.407676696777344,
+            "calibration_defined": false
+        },
+        {
+            "configuration": "LiDAR-Assisted-Camera-BEV-Only",
+            "active_modalities": [
+                "camera"
+            ],
+            "mAP@0.50": 0.0,
+            "precision_macro_gt_present": 0.0,
+            "recall_macro_gt_present": 0.0,
+            "f1_macro_gt_present": 0.0,
+            "ECE": null,
+            "NLL": null,
+            "Brier": null,
+            "mean_prediction_confidence": 0.0,
+            "prediction_event_accuracy": 0.0,
+            "confidence_minus_event_accuracy": 0.0,
+            "AP_class_0": 0.0,
+            "AP_class_1": 0.0,
+            "AP_class_2": 0.0,
+            "total_predictions": 0,
+            "pred_class_0": 0,
+            "pred_class_1": 0,
+            "pred_class_2": 0,
+            "elapsed_seconds": 20.419267177581787,
+            "calibration_defined": false
+        }
+    ],
+    "paper_note": "Calibration metrics are undefined when no detections are emitted. Such rows are represented as null/N/A for paper reporting. Raw experimental outputs remain unchanged in clean_branch_ablation_corrected.json."
+}

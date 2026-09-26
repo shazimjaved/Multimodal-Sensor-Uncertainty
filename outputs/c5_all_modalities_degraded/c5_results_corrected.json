@@ -1,0 +1,196 @@
+{
+    "checkpoint": "/kaggle/working/Multimodal-Sensor-Uncertainty/outputs/c0_baseline/checkpoint_best.pth",
+    "seed": 12345,
+    "validation_samples": 87,
+    "condition_definition": "All-modality controlled degradation: camera, LiDAR and radar degraded at matched severity.",
+    "camera_runtime_parameters": {
+        "0": {
+            "name": "Clean",
+            "beta": 0.0,
+            "blur_sigma": 0.0,
+            "contrast_scale": 1.0,
+            "visibility_m": 300.0
+        },
+        "1": {
+            "name": "Light Fog",
+            "beta": 0.02,
+            "blur_sigma": 1.0,
+            "contrast_scale": 0.85,
+            "visibility_m": 150.0
+        },
+        "2": {
+            "name": "Moderate Fog",
+            "beta": 0.05,
+            "blur_sigma": 2.0,
+            "contrast_scale": 0.65,
+            "visibility_m": 60.0
+        },
+        "3": {
+            "name": "Dense Fog",
+            "beta": 0.1,
+            "blur_sigma": 3.5,
+            "contrast_scale": 0.45,
+            "visibility_m": 30.0
+        }
+    },
+    "lidar_runtime_parameters": {
+        "0": {
+            "name": "Clean",
+            "alpha_ext": 0.0,
+            "max_range_m": 85.0,
+            "range_jitter_std_m": 0.0,
+            "clutter_count": 0
+        },
+        "1": {
+            "name": "Light Attenuation",
+            "alpha_ext": 0.01,
+            "max_range_m": 65.0,
+            "range_jitter_std_m": 0.02,
+            "clutter_count": 150
+        },
+        "2": {
+            "name": "Moderate Attenuation",
+            "alpha_ext": 0.025,
+            "max_range_m": 45.0,
+            "range_jitter_std_m": 0.05,
+            "clutter_count": 300
+        },
+        "3": {
+            "name": "Severe Fog Extinction",
+            "alpha_ext": 0.05,
+            "max_range_m": 25.0,
+            "range_jitter_std_m": 0.08,
+            "clutter_count": 450
+        }
+    },
+    "radar_runtime_parameters": {
+        "0": {
+            "name": "Clean",
+            "power_loss_db": 0.0,
+            "speckle_sigma": 0.0,
+            "clutter_density": 0.0
+        },
+        "1": {
+            "name": "Mild Clutter / Rain Spray",
+            "power_loss_db": 1.5,
+            "speckle_sigma": 0.15,
+            "clutter_density": 0.001
+        },
+        "2": {
+            "name": "Moderate Radome Attenuation",
+            "power_loss_db": 3.5,
+            "speckle_sigma": 0.3,
+            "clutter_density": 0.005
+        },
+        "3": {
+            "name": "Severe Hardware Degradation",
+            "power_loss_db": 6.0,
+            "speckle_sigma": 0.5,
+            "clutter_density": 0.015
+        }
+    },
+    "results": [
+        {
+            "condition": "C5-L1",
+            "base_condition": "C5",
+            "severity": 1,
+            "mAP@0.50": 0.26766636770520846,
+            "precision_macro_gt_present": 0.20056317750677508,
+            "recall_macro_gt_present": 0.48620989410463095,
+            "f1_macro_gt_present": 0.2733773377337734,
+            "ECE": 0.06262406254058134,
+            "NLL": 0.3794432009505753,
+            "Brier": 0.11302446082106772,
+            "AP_class_0": 0.12681388617042336,
+            "AP_class_1": 0.4085188492399936,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.21893087029457092,
+            "prediction_event_accuracy": 0.17017326732673269,
+            "confidence_minus_event_accuracy": 0.04875760296783824,
+            "total_predictions": 1674,
+            "pred_class_0": 1011,
+            "pred_class_1": 600,
+            "pred_class_2": 63,
+            "elapsed_seconds": 41.992005825042725,
+            "delta_mAP_vs_C0": -0.07101655192195888,
+            "delta_ECE_vs_C0": -0.011042610624408186,
+            "delta_NLL_vs_C0": -0.004256519335570863,
+            "delta_Brier_vs_C0": -0.0018896693612391324
+        },
+        {
+            "condition": "C5-L2",
+            "base_condition": "C5",
+            "severity": 2,
+            "mAP@0.50": 0.10711137917677283,
+            "precision_macro_gt_present": 0.08359106529209623,
+            "recall_macro_gt_present": 0.24423107317844162,
+            "f1_macro_gt_present": 0.12317013643931153,
+            "ECE": 0.09605538340388345,
+            "NLL": 0.2766788311289381,
+            "Brier": 0.07149161445341128,
+            "AP_class_0": 0.017691897332972724,
+            "AP_class_1": 0.19653086102057293,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.17501135170459747,
+            "prediction_event_accuracy": 0.0873440285204991,
+            "confidence_minus_event_accuracy": 0.08766732318409837,
+            "total_predictions": 1729,
+            "pred_class_0": 505,
+            "pred_class_1": 1185,
+            "pred_class_2": 39,
+            "elapsed_seconds": 41.73496961593628,
+            "delta_mAP_vs_C0": -0.23157154045039452,
+            "delta_ECE_vs_C0": 0.022388710238893925,
+            "delta_NLL_vs_C0": -0.10702088915720809,
+            "delta_Brier_vs_C0": -0.04342251572889558
+        },
+        {
+            "condition": "C5-L3",
+            "base_condition": "C5",
+            "severity": 3,
+            "mAP@0.50": 0.011441195668652723,
+            "precision_macro_gt_present": 0.04465472159115264,
+            "recall_macro_gt_present": 0.051623992413466095,
+            "f1_macro_gt_present": 0.04293684285816465,
+            "ECE": 0.09450868106291226,
+            "NLL": 0.22928023032741063,
+            "Brier": 0.053292429020565656,
+            "AP_class_0": 0.003289473684210526,
+            "AP_class_1": 0.01959291765309492,
+            "AP_class_2": 0.0,
+            "GT_count_class_0": 228,
+            "GT_count_class_1": 333,
+            "GT_count_class_2": 0,
+            "valid_classes_for_macro_metrics": [
+                0,
+                1
+            ],
+            "mean_prediction_confidence": 0.14024899899959564,
+            "prediction_event_accuracy": 0.05069124423963134,
+            "confidence_minus_event_accuracy": 0.0895577547599643,
+            "total_predictions": 655,
+            "pred_class_0": 82,
+            "pred_class_1": 573,
+            "pred_class_2": 0,
+            "elapsed_seconds": 42.32349395751953,
+            "delta_mAP_vs_C0": -0.32724172395851464,
+            "delta_ECE_vs_C0": 0.020842007897922732,
+            "delta_NLL_vs_C0": -0.15441948995873556,
+            "delta_Brier_vs_C0": -0.0616217011617412
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "note": "fog_6_0 is strictly held out from training, checkpoint selection, architecture selection, and threshold tuning. Official mAP uses all GT-present classes; common-class car+van mAP is stored separately for comparison with city_3_0.",
+    "result": {
+        "sequence": "fog_6_0",
+        "annotated_frames": 657,
+        "official_mAP_3_GT_present_classes": 0.22207348873403102,
+        "common_class_car_van_mAP": 0.3257371473738341,
+        "AP_Car": 0.6364819287231764,
+        "AP_Van": 0.014992366024491666,
+        "AP_Bus": 0.014746171454424903,
+        "GT_Car": 1083,
+        "GT_Van": 106,
+        "GT_Bus": 24,
+        "ECE": 0.12041830682162843,
+        "NLL": 0.2969296067023415,
+        "Brier": 0.07883137340375518,
+        "Precision": 0.09729954277637881,
+        "Recall": 0.49174129049867304,
+        "F1": 0.1478376700118182,
+        "MeanConfidence": 0.21095143258571625,
+        "EventAccuracy": 0.14767563788885005,
+        "ConfMinusEventAcc": 0.0632757946968662,
+        "Predictions": 5722,
+        "empty_road_diagnostic": {
+            "frames": 54,
+            "total_false_positive_detections": 354,
+            "false_positives_per_frame": 6.555555555555555,
+            "frames_with_any_prediction": 53,
+            "fraction_frames_with_any_prediction": 0.9814814814814815,
+            "mean_fp_confidence": 0.17202511429786682,
+            "max_fp_confidence": 0.653002142906189,
+            "fp_class_0": 142,
+            "fp_class_1": 118,
+            "fp_class_2": 94
+        }
+    }
+}
