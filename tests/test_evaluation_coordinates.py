@@ -101,4 +101,6 @@ def test_ignore_boxes_prevention():
     # If it IS ignored, it is simply discarded and not appended to matches!
     # So all_matches will be empty.
     assert len(evaluator.all_matches) == 0
-    assert metrics['AP_class_1'] == 1.0 # True negative frame
+    # Zero-GT classes are not assigned artificial AP=1.
+    # They receive AP=0 and are excluded from the mAP denominator.
+    assert metrics['AP_class_1'] == 0.0

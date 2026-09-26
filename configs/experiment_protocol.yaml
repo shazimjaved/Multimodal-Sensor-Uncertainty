@@ -80,7 +80,7 @@ classes:
     x_max: 50.0  # meters (right)
     y_min: 0.0   # meters (front bumper)
     y_max: 100.0 # meters (forward range)
-    resolution_m: 0.17361 # 1 / 5.7597 px/m
+    resolution_m: 0.1953125 # common 512x512 model BEV: 100 m / 512 px
 
 # ------------------------------------------------------------------------------
 # 3. Physically-Grounded Synthetic Degradation Models
@@ -150,7 +150,7 @@ degradation:
   radar:
     model: "Controlled Radar Corruption Model (Sensor Stress / Hardware Clutter)"
     note: "This model represents controlled radar corruption (radome wetting, receiver noise, clutter) to stress-test fusion. It is NOT claimed as a physically validated model of atmospheric fog-induced radar attenuation, as 77GHz millimeter waves penetrate fog."
-    formula: "S_deg = S_clean * 10^(-loss_db/20) * Rayleigh(sigma_s) + clutter"
+    formula: "S_deg = S_clean * 10^(-loss_db/10) * Rayleigh(sigma_s) + clutter"
     levels:
       level_0:
         name: "Clean"
@@ -214,14 +214,12 @@ conditions:
 # ------------------------------------------------------------------------------
 metrics:
   performance:
-    - name: "mAP@0.5"
-      description: "Mean Average Precision at IoU 0.5 (primary detection benchmark)"
-    - name: "mAP@0.5:0.95"
-      description: "COCO-style averaged mAP across IoU thresholds [0.50:0.05:0.95]"
+    - name: "mAP@0.50"
+      description: "Mean Average Precision at IoU 0.50 (primary detection benchmark)"
     - name: "Precision"
-      description: "True Positives / Total Predicted Detections at conf >= 0.5"
+      description: "True Positives / Total Predicted Detections after decoder score threshold >= 0.1"
     - name: "Recall"
-      description: "True Positives / Total Ground Truth Objects at conf >= 0.5"
+      description: "True Positives / Total Ground Truth Objects after decoder score threshold >= 0.1"
     - name: "F1"
       description: "Harmonic mean of precision and recall"
 
@@ -233,16 +231,12 @@ metrics:
     evaluation_protocol: "Comparative evaluation: C0 Clean Validation establishes baseline mAP, ECE, Brier, and NLL. All degraded conditions (C1-C5) and fog_6_0 transfer are evaluated relative to C0 to track delta_ECE, delta_Brier, and delta_NLL. No arbitrary fixed ECE thresholds are assumed."
     metrics:
       - name: "ECE"
-        bins: 15
-        description: "Expected Calibration Error across 15 equal confidence intervals [0, 1]."
+        bins: 10
+        description: "Expected Calibration Error across 10 equal confidence intervals [0, 1]."
       - name: "NLL"
         description: "Negative Log-Likelihood of binary detection correctness."
       - name: "Brier_Score"
         description: "Mean squared error between predicted confidence and true correctness label y."
-      - name: "MCE"
-        description: "Maximum Calibration Error across all bins."
-      - name: "OE"
-        description: "Overconfidence Error measuring severity where confidence exceeds accuracy."
 
 # ------------------------------------------------------------------------------
 # 6. Model Architectural Setup & Ablation Matrix
@@ -258,6 +252,8 @@ models:
     fusion: "Channel-wise concatenation + 1x1 Conv fusion neck"
     head: "Single-stage anchor-free BEV detection head (CenterNet / FCOS style)"
     loss: "Focal classification loss + Smooth L1 bounding box regression"
+
+  ablation_note: "All modality configurations are inference-time branch ablations of the same frozen multimodal checkpoint; they are not separately trained unimodal architectures. The camera branch is LiDAR-assisted camera-BEV, not a pure monocular camera model."
 
   ablations:
     - id: "M_RADAR_ONLY"
@@ -280,10 +276,12 @@ models:
 # ------------------------------------------------------------------------------
 paper_scope:
   essential_4_page:
-    table_1: "Performance (mAP@0.5) and Calibration (ECE, Brier, OE) across 4 core architectures (Radar-only, LiDAR-only, Camera-only, Full Multimodal) under C0 Clean vs C4 Fog-Matched (Level 3) vs Real Fog (fog_6_0)."
-    figure_1: "System architecture and physical sensor degradation pipeline diagram."
-    figure_2: "Calibration Error (ECE) and Detection Performance (mAP) vs Degradation Severity (Levels 0->3) under Fog-Matched Synthetic Degradation (C4)."
-    figure_3: "Reliability Diagrams comparing C0 Clean baseline vs C4 Synthetic Fog (Level 3) vs Real fog_6_0."
+    table_1: "Severe controlled-degradation summary for C0 Clean and C1-L3 through C5-L3, reporting mAP@0.50, Recall, ECE, and confidence-minus-event-accuracy."
+    table_2: "Strictly held-out real fog_6_0 evaluation with official 3-class mAP, common-class Car+Van mAP, class-wise AP, Recall, and ECE."
+    table_3: "Cross-domain inference-time branch ablation using common-class Car+Van mAP under C0 Clean, C4-L3 synthetic degradation, and real fog_6_0."
+    figure_1: "mAP@0.50 versus degradation severity for C1-C5, with C0 Clean as the common Level-0 reference."
+    figure_2: "Expected Calibration Error (ECE) versus degradation severity for C1-C5, with C0 Clean as the common Level-0 reference."
+    figure_3: "Cross-domain inference-time branch ablation using common-class Car+Van mAP for Full, Radar+LiDAR, Radar+Camera-BEV, and LiDAR+Camera-BEV configurations."
   optional_extended:
     - "Fine-grained 10-level continuous parameter sweeps."
     - "Cross-camera stereo disparity ablations (left vs right camera)."

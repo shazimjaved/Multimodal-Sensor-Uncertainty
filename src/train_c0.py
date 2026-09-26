@@ -278,9 +278,34 @@ def main():
         metrics = evaluator.compute_metrics()
         
         map_050 = metrics.get('mAP@0.50', 0.0)
-        precision = np.mean([metrics.get(f'Precision_class_{c}', 0.0) for c in range(3)])
-        recall = np.mean([metrics.get(f'Recall_class_{c}', 0.0) for c in range(3)])
-        f1 = np.mean([metrics.get(f'F1_class_{c}', 0.0) for c in range(3)])
+        valid_classes = [
+            c for c in range(3)
+            if evaluator.all_gt_counts.get(c, 0) > 0
+        ]
+
+        precision = (
+            np.mean([
+                metrics.get(f'Precision_class_{c}', 0.0)
+                for c in valid_classes
+            ])
+            if valid_classes else 0.0
+        )
+
+        recall = (
+            np.mean([
+                metrics.get(f'Recall_class_{c}', 0.0)
+                for c in valid_classes
+            ])
+            if valid_classes else 0.0
+        )
+
+        f1 = (
+            np.mean([
+                metrics.get(f'F1_class_{c}', 0.0)
+                for c in valid_classes
+            ])
+            if valid_classes else 0.0
+        )
         
         peak_rss = process.memory_info().rss / (1024 * 1024)
         

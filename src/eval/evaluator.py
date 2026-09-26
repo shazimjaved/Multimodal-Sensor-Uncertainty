@@ -177,17 +177,23 @@ class Evaluator:
             c_matches = [m for m in self.all_matches if m['label'] == c]
             num_gt = self.all_gt_counts.get(c, 0)
             
+            metrics[f'GT_count_class_{c}'] = int(num_gt)
+
+            # AP is undefined when a class has no GT instances in the
+            # evaluation split. Report 0.0 for visibility, but EXCLUDE
+            # the class from the mAP denominator.
             if num_gt == 0:
-                if len(c_matches) == 0:
-                    metrics[f'AP_class_{c}'] = 1.0 # True negative frame essentially
-                    aps.append(1.0)
-                else:
-                    metrics[f'AP_class_{c}'] = 0.0
-                    aps.append(0.0)
+                metrics[f'AP_class_{c}'] = 0.0
+                metrics[f'Precision_class_{c}'] = 0.0
+                metrics[f'Recall_class_{c}'] = 0.0
+                metrics[f'F1_class_{c}'] = 0.0
                 continue
-                
+
             if len(c_matches) == 0:
                 metrics[f'AP_class_{c}'] = 0.0
+                metrics[f'Precision_class_{c}'] = 0.0
+                metrics[f'Recall_class_{c}'] = 0.0
+                metrics[f'F1_class_{c}'] = 0.0
                 aps.append(0.0)
                 continue
                 

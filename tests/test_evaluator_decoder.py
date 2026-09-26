@@ -82,14 +82,20 @@ class TestEvaluatorTasks:
         
         # the prediction should be ignored, meaning it doesn't count as FP
         metrics = evaluator.compute_metrics()
-        assert metrics['AP_class_0'] == 1.0 # Empty frame, 0 FP = 1.0 AP
+        # Prediction is ignored and therefore does not count as an FP.
+        # However, with zero GT for this class AP is 0 rather than
+        # an artificial perfect score of 1.
+        assert metrics['AP_class_0'] == 0.0
 
     def test_edge_cases(self):
         # Empty everything
         evaluator = Evaluator()
         evaluator.add_batch([{'boxes': torch.empty((0,5)), 'scores': torch.empty(0), 'labels': torch.empty(0)}], [np.empty((0,6))])
         metrics = evaluator.compute_metrics()
-        assert metrics['mAP@0.50'] == 1.0 # all True Negatives
+        # With no GT-present classes, detection AP/mAP is undefined;
+        # the evaluator's raw numeric representation is 0 rather than
+        # an artificial perfect score.
+        assert metrics['mAP@0.50'] == 0.0
         assert metrics['ECE'] == 0.0
         assert metrics['NLL'] == 0.0
         assert metrics['Brier'] == 0.0

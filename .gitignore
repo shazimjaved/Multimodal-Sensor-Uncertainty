@@ -24,3 +24,5 @@ Thumbs.db
 # Experiments and Outputs
 outputs/
 .pytest_cache/
+city_3_0
+fog_6_0
